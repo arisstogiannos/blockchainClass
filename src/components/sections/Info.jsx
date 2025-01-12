@@ -13,10 +13,12 @@ class Info extends Component {
     };
   }
 
+  // Ανάκτηση δεδομένων του συμβολαίου με την αρχικοποίηση του component
   componentDidMount() {
     this.fetchData();
   }
 
+  // Έλεγχος αν έχει αλλάξει ο αποστολέας ή το triggerRerender για να ενημερωθούν τα δεδομένα
   componentDidUpdate(prevProps) {
     if (
       prevProps.sender !== this.props.sender ||
@@ -26,6 +28,7 @@ class Info extends Component {
     }
   }
 
+  // Ανάκτηση δεδομένων του συμβολαίου
   async fetchData() {
     try {
       const owner = await contract.methods.getOwnersAddress().call();

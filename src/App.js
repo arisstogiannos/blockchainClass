@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 import CanceledCampaigns from "./components/sections/CanceledCampaigns";
 import ControlPanel from "./components/sections/ControlPanel";
@@ -6,7 +5,6 @@ import Fulfilled from "./components/sections/FulfilledCampaigns";
 import Info from "./components/sections/Info";
 import LiveCampaigns from "./components/sections/LiveCampaigns";
 import NewCampaign from "./components/sections/NewCampaign";
-import web3 from "./web3";
 import contract from "./contract";
 import  { Component } from 'react';
 
@@ -21,10 +19,11 @@ class App extends Component {
     };
 
     this.fetchAccount = this.fetchAccount.bind(this);
-    this.subscribeToAllEvents = this.subscribeToAllEvents.bind(this);
+    this.listenToAllEvents = this.listenToAllEvents.bind(this);
     this.getIsDestroyed = this.getIsDestroyed.bind(this);
   }
 
+  // Ανάκτηση του τρέχοντος λογαριασμού του χρήστη	
   async fetchAccount() {
     const currentAccount = (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0];
     this.setState({ sender: currentAccount });
@@ -35,15 +34,21 @@ class App extends Component {
     });
   }
 
-  subscribeToAllEvents() {
+  // Προσθήκη listener σε όλα τα γεγονότα του συμβολαίου
+  listenToAllEvents() {
+    // Έλεγχος αν το συμβόλαιο έχει δημιουργηθεί
     if (!contract || !contract.events) return;
 
     contract.events.allEvents().on('data', async (data) => {
       console.log('Event Emitted: ', data.event);
+      // Κάθε φορά που εκπέμπεται ένα γεγονός, αλλάζουμε την τιμή του triggerRerender
+      //  ώστε να κανει rerender ολα τα components παιδία που το χρησιμοποιούν.
+      //  Χρησιμοποιείται η Date() για να είναι διαφορετική κάθε φορά
       this.setState({ triggerRerender: new Date() });
     });
   }
 
+  // Έλεγχος αν το συμβόλαιο έχει καταστραφεί
   async getIsDestroyed() {
     try {
       const isDestroyed = await contract.methods.getIsDestroyed().call();
@@ -53,20 +58,22 @@ class App extends Component {
     }
   }
 
+
   componentDidMount() {
+
     this.fetchAccount();
-
-    this.subscribeToAllEvents();
-
+    this.listenToAllEvents();
     this.getIsDestroyed();
   }
 
+  // Κάθε φορά που ακούμς αλλαγές στο triggerRerender, κάνει ελέγχο αν το συμβόλαιο έχει καταστραφεί
   componentDidUpdate(prevProps, prevState) {
     if (prevState.triggerRerender !== this.state.triggerRerender) {
       this.getIsDestroyed();
     }
   }
 
+  // Αφαίρεση των listeners πριν το unmount του component
   componentWillUnmount() {
     if (contract && contract.events) {
       contract.events.allEvents().removeAllListeners();

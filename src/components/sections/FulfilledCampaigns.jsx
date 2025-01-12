@@ -10,11 +10,13 @@ class Fulfilled extends Component {
       campaigns: [],
     };
   }
-
+  // Ανάκτηση των δεδομένων των καμπανιών που έχουν ολοκληρωθεί
   componentDidMount() {
     this.fetchData();
   }
 
+  // Ενημέρωση των δεδομένων των καμπανιών που έχουν ολοκληρωθεί 
+  // όταν αλλάζει ο λογαριασμός του χρήστη ή όταν εκπέμπεται κάποιο γεγονός
   componentDidUpdate(prevProps) {
     if (
       prevProps.sender !== this.props.sender ||
@@ -24,6 +26,7 @@ class Fulfilled extends Component {
     }
   }
 
+  // Ανάκτηση των δεδομένων των καμπανιών που έχουν ολοκληρωθεί
   async fetchData() {
     const { sender } = this.props;
 
@@ -42,6 +45,7 @@ class Fulfilled extends Component {
   render() {
     const { campaigns } = this.state;
 
+    // Εμφάνιση μηνύματος όταν δεν υπάρχουν καμπάνιες που έχουν ολοκληρωθεί 
     if (campaigns.length === 0) {
       return <Section title={"Fulfilled Campaigns"}>No campaigns found</Section>;
     }

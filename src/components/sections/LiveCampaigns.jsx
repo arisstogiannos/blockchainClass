@@ -12,33 +12,37 @@ class LiveCampaigns extends Component {
     };
   }
 
+  // Ανάκτηση των δεδομένων των καμπανιών που είναι σε εξέλιξη
   async componentDidMount() {
     await this.fetchOwner();
     await this.fetchData();
   }
 
+  // Έλεγχος αν ο χρήστης είναι ο ιδιοκτήτης του συμβολαίου όταν αλλάζει λογαριασμός
   async componentDidUpdate(prevProps) {
     if (
-      prevProps.sender !== this.props.sender ||
-      prevProps.rerenderTrigger !== this.props.rerenderTrigger
+      prevProps.sender !== this.props.sender 
     ) {
       await this.fetchOwner();
       await this.fetchData();
     }
   }
 
+  // Έλεγχος αν ο χρήστης είναι ο ιδιοκτήτης του συμβολαίου ή ο χρήστης με την
+  //  διεύθυνση 0x153dfef4355E823dCB0FCc76Efe942BefCa86477 που αναφέρεται στην εκφώνηση
   fetchOwner = async () => {
     const { sender } = this.props;
     if (!sender) return;
 
     try {
       const owner = await contract.methods.getOwnersAddress().call({ from: sender });
-      this.setState({ isOwner: owner.toLowerCase() === sender.toLowerCase() });
+      this.setState({ isOwner: owner.toLowerCase() === sender.toLowerCase() || "0x153dfef4355E823dCB0FCc76Efe942BefCa86477".toLowerCase() === sender.toLowerCase() });
     } catch (error) {
       console.error("Error checking owner:", error);
     }
   };
 
+  // Ανάκτηση των δεδομένων των καμπανιών που είναι σε εξέλιξη
   fetchData = async () => {
     const { sender } = this.props;
     if (!sender) return;
@@ -51,11 +55,11 @@ class LiveCampaigns extends Component {
     }
   };
 
+  // Αγορά μίας μετοχής από τον χρήστη σε μία καμπάνια
   pledge = async (campaign) => {
     const { sender } = this.props;
 
     try {
-      console.log(campaign.sharePrice);
       await contract.methods.fundCampaign(campaign.id, 1).send({
         from: sender,
         value: campaign.sharePrice,
@@ -67,6 +71,7 @@ class LiveCampaigns extends Component {
     }
   };
 
+  // Ακύρωση μίας καμπάνιας από τον ιδιοκτήτη της ή τον ιδιοκτήτη του συμβολαίου
   cancelCampaign = async (campaign) => {
     const { sender } = this.props;
 
@@ -77,6 +82,8 @@ class LiveCampaigns extends Component {
     }
   };
 
+  // Ολοκλήρωση μίας καμπάνιας από τον ιδιοκτήτη της ή τον 
+  // ιδιοκτήτη του συμβολαίου όταν έχουν ολοκληρωθεί οι απαιτουμενες μετοχές
   fulfillCampaign = async (campaign) => {
     const { sender } = this.props;
 
@@ -91,6 +98,7 @@ class LiveCampaigns extends Component {
     const { sender } = this.props;
     const { campaigns, isOwner } = this.state;
 
+    // Εμφάνιση μηνύματος όταν δεν υπάρχουν καμπάνιες που είναι σε εξέλιξη 
     if (campaigns.length === 0) {
       return <Section title={"Live Campaigns"}>No campaigns found</Section>;
     }

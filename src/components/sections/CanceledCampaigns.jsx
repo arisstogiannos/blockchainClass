@@ -11,8 +11,8 @@ class CanceledCampaigns extends Component {
 
     this.state = {
       campaigns: [],
-      loading: false,
-      campaignsToClaim: false,
+      pending: false,
+      hasCampaignsToClaim: false,
     };
 
     this.refund = this.refund.bind(this);
@@ -20,8 +20,10 @@ class CanceledCampaigns extends Component {
     this.fetchData = this.fetchData.bind(this);
   }
 
+  // Επιστροφή των χρημάτων στον επενδυτή όταν πατηθεί το κουμπί claim
   async refund() {
-    this.setState({ loading: true });
+    // Κρατάμε το pending state σε true κατά την διάρκεια της διαδικασίας για να εμφανιστεί το Loader
+    this.setState({ pending: true });
 
     try {
       await contract.methods.refundInvestor().send({
@@ -33,30 +35,33 @@ class CanceledCampaigns extends Component {
       alert("Refund failed");
     }
 
-    this.setState({ loading: false });
+    // Επαναφορά του pending state σε false μετά την ολοκλήρωση της διαδικασίας
+    this.setState({ pending: false });
   }
 
+  // Έλεγχος αν ο επενδυτής έχει επενδύσει σε κάποια/ες από τις ακυρωμένες καμπάνιες
   async checkCampaignsToClaim(campaigns) {
     try {
-      const senderCampaigns = await contract.methods.getInvestorsData().call({
+      const userCampaigns = await contract.methods.getInvestorsData().call({
         from: this.props.sender,
       });
 
       let hasSharesInCancelledCampaigns = false;
-      senderCampaigns.forEach((senderCampaign) => {
+      userCampaigns.forEach((userCampaign) => {
         campaigns.forEach((canceledCampaign) => {
-          if (senderCampaign.campaignId === canceledCampaign.id) {
+          if (userCampaign.campaignId === canceledCampaign.id) {
             hasSharesInCancelledCampaigns = true;
           }
         });
       });
 
-      this.setState({ campaignsToClaim: hasSharesInCancelledCampaigns });
+      this.setState({ hasCampaignsToClaim: hasSharesInCancelledCampaigns });
     } catch (error) {
       console.error("Error fetching sender campaigns:", error);
     }
   }
 
+  // Ανάκτηση των ακυρωμένων καμπανιών
   async fetchData() {
     const { sender } = this.props;
     if (!sender) return;
@@ -73,10 +78,12 @@ class CanceledCampaigns extends Component {
     }
   }
 
+  // Καλείται κατα την αρχικοποίηση του component
   componentDidMount() {
     this.fetchData();
   }
 
+  // Καλείται κάθε φορά που αλλάζει ο sender ή το rerenderTrigger
   componentDidUpdate(prevProps) {
     const { sender, rerenderTrigger } = this.props;
 
@@ -89,8 +96,9 @@ class CanceledCampaigns extends Component {
   }
 
   render() {
-    const { campaigns, loading, campaignsToClaim } = this.state;
+    const { campaigns, pending, hasCampaignsToClaim } = this.state;
 
+    // Εμφάνιση μηνύματος όταν δεν υπάρχουν ακυρωμένες καμπάνιες
     if (campaigns.length === 0) {
       return <Section title={"Canceled Campaigns"}>No campaigns found</Section>;
     }
@@ -127,14 +135,14 @@ class CanceledCampaigns extends Component {
         <div className="relative group h-fit w-fit">
           <button
             onClick={this.refund}
-            disabled={!campaignsToClaim}
+            disabled={!hasCampaignsToClaim}
             className={`${
-              !campaignsToClaim ? "opacity-20" : "hover:bg-blue-800"
+              !hasCampaignsToClaim ? "opacity-30" : "hover:bg-blue-800"
             } bg-blue-600 rounded-md w-28 p-1 font-medium transition-colors duration-200`}
           >
-            {loading ? <Loader /> : "Claim"}
+            {pending ? <Loader /> : "Claim"}
           </button>
-          {!campaignsToClaim && (
+          {!hasCampaignsToClaim && (
             <div className="absolute left-full transform translate-x-5 top-1/2 -translate-y-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded-md p-2 whitespace-nowrap">
               No campaigns available to claim
             </div>

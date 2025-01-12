@@ -1,5 +1,5 @@
 import web3 from './web3';
-const address = '0x6427C2df365C8d2BFBC7DE9201429dDf833AaaBD';
+const address = '0x6f30A472501cb385E08ABFD180E3e85922482D76';
 // const address = '0xB37b91683E603eec86bd69D5324d5471D093C87D';
 const abi =[
 	{
@@ -25,9 +25,9 @@ const abi =[
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "campaignId",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"name": "CampaignCancelled",
@@ -38,9 +38,9 @@ const abi =[
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "campaignId",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"name": "CampaignCompleted",
@@ -51,9 +51,9 @@ const abi =[
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "campaignId",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -74,9 +74,9 @@ const abi =[
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "campaignId",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"name": "cancelCampaign",
@@ -100,9 +100,9 @@ const abi =[
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "campaignId",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"name": "completeCampaign",
@@ -162,9 +162,9 @@ const abi =[
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "campaignId",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
@@ -214,9 +214,9 @@ const abi =[
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "campaignId",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -271,17 +271,17 @@ const abi =[
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"name": "campaigns",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "id",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"internalType": "address",
@@ -323,15 +323,34 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "campaignTitlesCreated",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "getActiveCampaigns",
 		"outputs": [
 			{
 				"components": [
 					{
-						"internalType": "uint256",
+						"internalType": "string",
 						"name": "id",
-						"type": "uint256"
+						"type": "string"
 					},
 					{
 						"internalType": "address",
@@ -408,9 +427,9 @@ const abi =[
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "campaignId",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"name": "getCampaignInvestors",
@@ -439,9 +458,9 @@ const abi =[
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "campaignId",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"name": "getCampaignTitle",
@@ -462,9 +481,9 @@ const abi =[
 			{
 				"components": [
 					{
-						"internalType": "uint256",
+						"internalType": "string",
 						"name": "id",
-						"type": "uint256"
+						"type": "string"
 					},
 					{
 						"internalType": "address",
@@ -545,9 +564,9 @@ const abi =[
 			{
 				"components": [
 					{
-						"internalType": "uint256",
+						"internalType": "string",
 						"name": "id",
-						"type": "uint256"
+						"type": "string"
 					},
 					{
 						"internalType": "address",
@@ -615,9 +634,9 @@ const abi =[
 			{
 				"components": [
 					{
-						"internalType": "uint256",
+						"internalType": "string",
 						"name": "campaignId",
-						"type": "uint256"
+						"type": "string"
 					},
 					{
 						"internalType": "uint256",
