@@ -21,7 +21,8 @@ class LiveCampaigns extends Component {
   // Έλεγχος αν ο χρήστης είναι ο ιδιοκτήτης του συμβολαίου όταν αλλάζει λογαριασμός
   async componentDidUpdate(prevProps) {
     if (
-      prevProps.sender !== this.props.sender 
+      prevProps.sender !== this.props.sender || 
+      prevProps.rerenderTrigger !== this.props.rerenderTrigger
     ) {
       await this.fetchOwner();
       await this.fetchData();

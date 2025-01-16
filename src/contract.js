@@ -1,5 +1,5 @@
 import web3 from './web3';
-const address = '0x6f30A472501cb385E08ABFD180E3e85922482D76';
+const address = '0xf4fA31d542906425F6910054c0EE55A7c38B7FbB';
 // const address = '0xB37b91683E603eec86bd69D5324d5471D093C87D';
 const abi =[
 	{
@@ -237,13 +237,6 @@ const abi =[
 	{
 		"inputs": [],
 		"name": "refundInvestor",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "setIsDestroyedToFalse",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -668,19 +661,6 @@ const abi =[
 	{
 		"inputs": [],
 		"name": "getOwnersAddress",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getSender",
 		"outputs": [
 			{
 				"internalType": "address",

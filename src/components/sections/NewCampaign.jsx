@@ -75,7 +75,7 @@ class NewCampaign extends Component {
   // Έλεγχος αν ο χρήστης είναι ο owner του συμβολαίου
   //  κάθε φορά που αλλάζει ο χρήστης λογαριασμό
   componentDidUpdate(prevProps) {
-    if (prevProps.sender !== this.props.sender ) {
+    if (prevProps.sender !== this.props.sender || prevProps.rerenderTrigger !== this.props.rerenderTrigger) {
       this.isOwner();
     }
   }
