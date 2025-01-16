@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/blockchain/static/css/main.bf067df9.css",
-    "main.js": "/blockchain/static/js/main.fe4d3fde.js",
-    "static/js/488.fed75df2.chunk.js": "/blockchain/static/js/488.fed75df2.chunk.js",
-    "index.html": "/blockchain/index.html",
-    "main.bf067df9.css.map": "/blockchain/static/css/main.bf067df9.css.map",
-    "main.fe4d3fde.js.map": "/blockchain/static/js/main.fe4d3fde.js.map",
-    "488.fed75df2.chunk.js.map": "/blockchain/static/js/488.fed75df2.chunk.js.map"
+    "main.css": "/blockchainClass/static/css/main.bf067df9.css",
+    "main.js": "/blockchainClass/static/js/main.99c68c05.js",
+    "static/js/488.fed75df2.chunk.js": "/blockchainClass/static/js/488.fed75df2.chunk.js",
+    "index.html": "/blockchainClass/index.html",
+    "main.bf067df9.css.map": "/blockchainClass/static/css/main.bf067df9.css.map",
+    "main.99c68c05.js.map": "/blockchainClass/static/js/main.99c68c05.js.map",
+    "488.fed75df2.chunk.js.map": "/blockchainClass/static/js/488.fed75df2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bf067df9.css",
-    "static/js/main.fe4d3fde.js"
+    "static/js/main.99c68c05.js"
   ]
 }
